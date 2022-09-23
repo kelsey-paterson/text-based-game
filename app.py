@@ -1,9 +1,19 @@
 # Main game script
 
-# Import game modules
+# Import python modules
+import pygame as pg
 
-import game_data
-import game_display
-import game_objects
+# Import proprietary game modules
+
+from game_data import *
+from game_display import *
+from game_objects import *
 
 # Create main game while loop
+while game_state.is_running:
+
+    for event in pg.event.get():
+
+        # If user presses escape
+        if event.type == pg.QUIT:
+            game_state.is_running = False
