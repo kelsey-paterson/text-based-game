@@ -1,14 +1,15 @@
-## Module defining game objects and their methods
+''' Module defining classes for use in game_play '''
 
 
-# Define game states class
-# Controls what is displayed in game main while loop
+# ---------------------- CLASSES ------------------------ #
 class GameState:
+  # Controls what is displayed in game main while loop
 
     def __init__(self):
         self.is_running = True
+        self.start_game_menu = True
 
+# ------------------ CREATE GAME OBJECTS ---------------- #
 
-
-# Create game states object
 game_state = GameState()
+
