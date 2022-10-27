@@ -37,8 +37,8 @@ while game_state.is_running:
 
     # Main game window
     elif game_state.main_game:
-      main_game(event)
-      pass
+      # main_game(event)
+      display_main_game_screen()
 
   # Continually update game screen
   display_all_text()

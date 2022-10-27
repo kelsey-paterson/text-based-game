@@ -69,7 +69,8 @@ def prepare_game():
   # Clear screen
   gdi.window.fill((0, 0, 0))
 
-def main_game():
+def main_game(event):
+  gdi.display_main_game_screen()
   pass
   # Display game screen
   #TODO: some function that displays game text + sidebar menus.

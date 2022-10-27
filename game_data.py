@@ -16,7 +16,7 @@ explain = {
 'luck': 'Chance of good loot from chests and enemies'
 }
 
-room_map = [[str(x) + y for y in ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']] for x in range(1, 10)]
+room_map = [[str(x) + y for y in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']] for x in range(1, 10)]
 available_paths = {}
 
 for i in range(len(room_map)):
