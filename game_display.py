@@ -46,7 +46,6 @@ class ScreenText:
 
   def display_text_line(self, words_to_print, text_line):
     ''' Display line of text on main window '''
-
     text_surface = self.font.render(words_to_print, True, (0, 128, 0))
     rect = text_surface.get_rect()
     rect.center = (self.text_x, text_line)
@@ -77,25 +76,27 @@ class ScreenText:
       elif word_count == len(printable_words):  
         words_to_print += (word + ' ')
         return (words_to_print, word_count)
-
       else:
         words_to_print += (word + ' ')
 
 
   def display_text(self):
+    # Make the / new line feature work.
     ''' Display text on main window '''
-
     # Set-up
     text_line = self.text_y
     words_to_print = ''
     printable_words = self.text.split()
     word_count_total = 0
+    n = len(printable_words)
 
     # Get line of text to print and print
-    while word_count_total < len(printable_words):
+    while word_count_total < n:
       (words_to_print, word_count) = self.limit_text_width(printable_words)
+      del printable_words[0:word_count]
       self.display_text_line(words_to_print, text_line)
       word_count_total += word_count
+      text_line += 20
 
 class InputBox:
     '''Input box for user to set thier name'''
@@ -112,22 +113,23 @@ class InputBox:
 
 
     def handle_event(self, event):
-        if event.type == pg.KEYDOWN:
-            if event.key == pg.K_RETURN:
-                Intro_Text_1.text = 'Welcome, {}. Please pick your player stats:'.format(self.text)
-                self.player = self.text
-                self.text = ''
-                self.color = pg.Color(0, 0, 0)
-                self.text_surface = my_font_12.render(self.text, True, self.color)
-                window.fill((0, 0, 0))
-                self.draw()
-                self.active = False
-            elif event.key == pg.K_BACKSPACE:
-                self.text = self.text[:-1]
-                window.fill((0, 0, 0))
-            else:
-                self.text += event.unicode
-            self.text_surface = my_font_12.render(self.text, True, self.color)
+      '''Handles user input to input box'''
+      if event.type == pg.KEYDOWN:
+        if event.key == pg.K_RETURN:
+          Intro_Text_1.text = 'Welcome, {}. Please pick your player stats:'.format(self.text)
+          self.player = self.text
+          self.text = ''
+          self.color = pg.Color(0, 0, 0)
+          self.text_surface = my_font_12.render(self.text, True, self.color)
+          window.fill((0, 0, 0))
+          self.draw()
+          self.active = False
+        elif event.key == pg.K_BACKSPACE:
+          self.text = self.text[:-1]
+          window.fill((0, 0, 0))
+        else:
+          self.text += event.unicode 
+          self.text_surface = my_font_12.render(self.text, True, self.color)
 
     def draw(self):
         window.blit(self.text_surface, (self.rect.x + 5, self.rect.y + 5))
