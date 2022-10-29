@@ -71,6 +71,42 @@ def prepare_game():
 
 def main_game(event):
   gdi.display_main_game_screen()
+  if go.game_state.choosing_path:
+    choose_path(event)
+  elif go.game_state.view_room:
+    view_room()
+  elif go.game_state.combat:
+    combat()
+  elif go.game_state.chest:
+    open_chest()
+
+def choose_path(event):
   pass
-  # Display game screen
-  #TODO: some function that displays game text + sidebar menus.
+  # Hint_text.text = ''
+  if event.type == pg.KEYDOWN and event.key in (pg.K_a, pg.K_w, pg.K_s, pg.K_d):
+    go.player.move(event)
+
+def enter_room():
+  if go.player.location not in go.room_dict.keys():
+    # If new room, update room dict with current room
+    go.room_dict[go.player.location] = go.Room()
+    go.room_dict[go.player.location].generate_room_content()
+    go.game_states.choosing_path = False
+    # go.game_states.first_room = False
+    go.game_states.view_room = True
+  else:
+    pass
+      # been_in_room()
+      # go.game_states.choosing_path = True
+
+def combat():
+  '''Player is in combat'''
+  pass
+
+def open_chest():
+  '''Player enters room with a chest'''
+  pass
+
+def view_room():
+  pass
+
