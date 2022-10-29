@@ -161,13 +161,13 @@ window_left_text_x = 15
 inventory_y = 30
 map_box_x = 120
 map_box_y = 300
-left_pane_xlimit = 350
+left_pane_xlimit = 375
 
 # Define right pane parameters
 window_right_text_x = 1300
 player_stats_y = 30
 xp_y = 200
-right_pane_xlimit = 1200
+right_pane_xlimit = 1275
 
 
 # Assign game window icon & title
@@ -183,7 +183,7 @@ window = pg.display.set_mode((window_width, window_height), pg.DOUBLEBUF)
 # Create game fonts
 my_font_12 = pg.font.Font('fonts/BarcadeBrawlRegular-plYD.ttf', 12)
 my_font_7 = pg.font.Font('fonts/BarcadeBrawlRegular-plYD.ttf', 7)
-my_font_3 = pg.font.Font('fonts/BarcadeBrawlRegular-plYD.ttf', 8)
+my_font_8 = pg.font.Font('fonts/BarcadeBrawlRegular-plYD.ttf', 8)
 
 # Create menu buttons
 Button1 = ClickButton('Start Game', window_width / 2, 400, my_font_12)
@@ -301,14 +301,14 @@ def display_inventory(x, y):
   '''Displays the players inventory on the screen'''
   gap = '     '
   inventory = 'Inventory' + gap + 'Attack  Defence  Agility  Health'
-  helper.render_text(inventory, x, y, my_font_3)
+  helper.render_text(inventory, x, y, my_font_7)
   lines = 1
   for item in go.player.inventory.keys():
     # Render the name of item
-    helper.render_text(str(item), x, (25 * lines) + y, my_font_3)
+    helper.render_text(str(item), x, (25 * lines) + y, my_font_7)
     # Render the properties of the item
     item_properties_string = item_properties_string(item)
-    helper.render_text(item_properties_string, x, (25 * lines) + y, my_font_3)
+    helper.render_text(item_properties_string, x, (25 * lines) + y, my_font_7)
     lines += 1
 
 
@@ -347,7 +347,7 @@ def display_map(x, y):
   '''Displays the map and current player location on main game screen'''
   color = pg.Color((0, 128, 0))
   map_box_width = len(gd.room_map[0]) * 17
-  helper.render_text('Room Map', x + map_box_width / 2, y + 20, my_font_7)
+  helper.render_text('Room Map', x + 30, y - 20, my_font_7)
   helper.draw_box(x, y, map_box_width, map_box_width, color, 1)
   #TODO: Complete the below, figure out what it is doing first...
   # for i in go.player.rect_map:
