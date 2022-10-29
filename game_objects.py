@@ -1,5 +1,9 @@
 ''' Module defining classes for use in game_play '''
 
+# ---------------------  IMPORT MODULES -------------------------#
+import pygame as pg
+pg.init()
+
 # ---------------------- CLASSES ------------------------ #
 class GameState:
   # Controls what is displayed in game main while loop
@@ -28,6 +32,24 @@ class Player:
       self.rect_map = []
       self.xp = 0
       self.level = 1
+    
+    def move(self, event):
+      # TODO: need to limit to where there is paths drawn i.e. in line with text displayed.
+      if event.type == pg.KEYDOWN:
+          if event.key == pg.K_a and self.x > 0:
+              self.x -= 1
+              game_state.choosing_path = False
+          if event.key == pg.K_d and self.x < 9:
+              self.x += 1
+              game_state.choosing_path = False
+          if event.key == pg.K_w and self.y < 9:
+              self.y += 1
+              game_state.choosing_path = False
+          if event.key == pg.K_s and self.y > 0:
+              self.y -= 1
+              game_state.choosing_path = False
+    
+    
 
 class Room:
 
