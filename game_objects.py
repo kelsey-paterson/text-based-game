@@ -60,6 +60,28 @@ class Room:
     self.enemy = ''
     self.visited = False
     self.chest_opened = False
+  
+  def generate_room_content(self):
+    # TODO: update function
+    pass
+    # self.visited = True
+    # chest_chance = 10 + (1 * player.luck)
+    # enemy_chance = 20
+    # empty_chance = 10
+    # window.fill((0, 0, 0))
+    # self.content = random.choices(['Enemy', 'Chest', 'Empty'], 
+    # weights=(enemy_chance, chest_chance, empty_chance),k=1)[0]
+    # if self.content == 'Enemy':
+    #     self.pick_enemy()
+    #     Text_2.text = '(Press Enter to begin Combat)'
+    # if self.content == 'Chest':
+    #     Text_1.text = gt.chest_text
+    #     Text_2.text = '(Press Enter to Open)'
+    #     self.chest_opened = False
+    # if self.content == 'Empty':
+    #     Text_1.text = gt.empty_text
+    #     Text_2.text = '(Press Enter to Continue)'
+
 
 # ------------------ CREATE GAME OBJECTS ---------------- #
 
