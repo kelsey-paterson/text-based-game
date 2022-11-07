@@ -23,8 +23,6 @@ def pick_stats(event):
         go.game_state.pick_stats = False
         go.game_state.main_game = True
 
-
-      
     elif event.type == pg.MOUSEBUTTONDOWN:
 
       for stat in gd.stats:
@@ -83,17 +81,20 @@ def main_game(event):
 def choose_path(event):
   pass
   # Hint_text.text = ''
-  if event.type == pg.KEYDOWN and event.key in (pg.K_a, pg.K_w, pg.K_s, pg.K_d):
-    go.player.move(event)
+  print(event.type)
+  # print(event.key)
+  if event.type == pg.KEYDOWN:
+    if event.key in (pg.K_a, pg.K_w, pg.K_s, pg.K_d):
+      go.player.move(event.key)
+      enter_room()
 
 def enter_room():
   if go.player.location not in go.room_dict.keys():
     # If new room, update room dict with current room
     go.room_dict[go.player.location] = go.Room()
     go.room_dict[go.player.location].generate_room_content()
-    go.game_states.choosing_path = False
     # go.game_states.first_room = False
-    go.game_states.view_room = True
+    go.game_state.view_room = True
   else:
     pass
       # been_in_room()
@@ -108,5 +109,7 @@ def open_chest():
   pass
 
 def view_room():
-  pass
+  print('viewing room now...')
+  current_room = go.room_dict[go.player.location]
+  current_room.generate_room_text()
 
