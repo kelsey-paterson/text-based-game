@@ -96,6 +96,7 @@ class ScreenText:
       del printable_words[0:word_count]
       self.display_text_line(words_to_print, text_line)
       word_count_total += word_count
+      # TODO: incorporate line_space and define as variable before making object.
       text_line += 20
 
 class InputBox:
