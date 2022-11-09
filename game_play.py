@@ -7,6 +7,8 @@ import game_objects as go
 import game_data as gd
 import game_display as gdi
 import game_play as gp
+import helper
+import random
 
 # -----------------------  FUNCTIONS ----------------------------#
 
@@ -73,29 +75,31 @@ def main_game(event):
     choose_path(event)
   elif go.game_state.view_room:
     view_room()
+  elif go.game_state.room_transition:
+    handle_enter(event)
   elif go.game_state.combat:
-    combat()
+    combat(event)
   elif go.game_state.chest:
     open_chest()
 
 def choose_path(event):
-  pass
   # Hint_text.text = ''
-  print(event.type)
-  # print(event.key)
   if event.type == pg.KEYDOWN:
     if event.key in (pg.K_a, pg.K_w, pg.K_s, pg.K_d):
       go.player.move(event.key)
-      enter_room()
+      go.game_state.view_room = True
 
-def enter_room():
+def view_room():
   if go.player.location not in go.room_dict.keys():
     # If new room, update room dict with current room
     go.room_dict[go.player.location] = go.Room()
     go.room_dict[go.player.location].generate_room_content()
+    go.room_dict[go.player.location].generate_room_text()
     # go.game_states.first_room = False
-    go.game_state.view_room = True
+    go.game_state.view_room = False
+    go.game_state.room_transition = True
   else:
+    # TODO: Complete for case where been in room
     pass
       # been_in_room()
       # go.game_states.choosing_path = True
@@ -104,12 +108,90 @@ def combat():
   '''Player is in combat'''
   pass
 
-def open_chest():
-  '''Player enters room with a chest'''
-  pass
+def chest_generate_item_category():
+  '''Randomly chooses item category to be in chest'''
+  chest_options = gd.chest_chances.keys()
+  chest_chances = gd.chest_chances.values()
+  return helper.getRandom(chest_options, chest_chances)
 
-def view_room():
-  print('viewing room now...')
-  current_room = go.room_dict[go.player.location]
-  current_room.generate_room_text()
+def chest_generate_item_type(item_category):
+  '''Given item category, randomly chooses item type'''
+  player_level = go.player.location[0]
+  item = ''
+
+  if item_category == 'sword' or item_category == 'shield':
+    type_chances = get_item_chances(player_level, item_category)
+    types = gd.chest_chance_dict_2[item_category].keys()
+    item = helper.getRandom(types, type_chances)
+
+  elif item_category == 'potion':
+    strength_chances = get_item_chances(player_level, item_category)
+    potion_types = gd.chest_chance_dict_2[item_category]
+    type = random.choice(potion_types)
+    strength_types = gd.chest_chance_dict_2[item_category].potion_strength.values()
+    strength = helper.getRandom(strength_types, strength_chances)
+    item = strength + ' ' + type
+  
+  return item
+
+def get_item_chances(player_level, item_category):
+  '''Given a player level, generates the chance for given type'''
+  # TODO: rewrite chance dict and following code to be more concise
+  chances = []
+  level_index = int(player_level) - 1
+  if item_category == 'sword' or item_category == 'shield':
+    for item in gd.chest_chance_dict_2[item_category]:
+      chances.push(item.value()[level_index]*go.player.luck)
+  elif item_category == 'potion':
+    chances = gd.chest_chance_dict_2[item_category].potion_strength.values() * go.player.luck
+
+  return chances
+
+def chest_generate_open_text(item_name):
+    # window.fill((0, 0, 0))
+  gdi.Text_1.text = 'You found a {} {}........'.format(item_name)
+  gdi.Text_2.text = '(Press Enter)'
+
+def open_chest(event):
+  '''Player opens chest'''
+  # TODO: Luck variable should factor into result.
+  item_category = chest_generate_item_category()
+  item_type = chest_generate_item_type()
+  item_name = item_type + item_category
+  chest_generate_open_text(item_name)
+
+  if event.type == pg.KEYDOWN:
+    if event.key == (pg.K_RETURN):
+      go.player.inventory[item_name] = go.Item(item_name)
+      go.game_state.chest = False
+      go.game_state.choosing_path = True
+  # go.player.check_inventory(item_category, item_type)
+  # if chest_contains == 'shield' and go.player.first_shield:
+  #     gdi.Hint_text.text = 'GAME HINT: / A shield reduces or blocks part of an enemy attack'
+  #     go.player.first_shield = False
+  # chest_contains = ''
+  # self.chest_opened = True
+
+  # if player.first_potion:
+  #     Hint_text.text = 'GAME HINT: / You can use a potion during combat to temporarily increase your stats'
+  #     player.first_potion = False
+  # if item_name in player.inventory.keys():
+  #     Text_1.text += gt.have_object_text
+  # else:
+  #     player.inventory[item_name] = Item(item_name)
+  # self.chest_opened = True
+
+def handle_enter(event):
+  '''Handle enter from room content outcome'''
+  if event.type == pg.KEYDOWN:
+    if event.key == (pg.K_RETURN):
+      if go.room_dict[go.player.location].content == 'chest':
+        go.game_state.chest = True
+      elif go.room_dict[go.player.location].content == 'enemy':
+        go.game_state.combat = True
+      else:
+        # Room is empty
+        go.game_state.choosing_path = True
+
+
 
