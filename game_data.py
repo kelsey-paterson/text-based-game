@@ -26,20 +26,20 @@ room_chances = {
 # TODO: Refine the following probabilities for better gameplay.
 enemy_chances = {
   '1': {
-    'Bat': 100,
+    'bat': 100,
   },
   '2': {
-    'Bat': 60,
-    'Ogre': 40,
+    'bat': 60,
+    'ogre': 40,
   },  
   '3': {
-    'Bat': 10,
-    'Ogre': 20,
-    'Troll': 10
+    'bat': 10,
+    'ogre': 20,
+    'troll': 10
   },
   '4': {
-    'Bat': 60,
-    'Ogre': 40,
+    'bat': 60,
+    'ogre': 40,
   }
   
 }
@@ -59,6 +59,46 @@ troll_text_explanation = 'GAME HINT: / Trolls pack a heavy hit but are very slow
 dragon_text = 'Dear lord..is that a....?'
 dragon_text_explanation = 'GAME HINT: / Dragons are the worst type of enemy you could hope to meet in the ' \
                           'dungeons..gah maybe you should high tail it out of there!'
+
+# Build enemy text object from the above
+enemy_text = {
+  'bat': [bat_text, bat_text_explain],
+  'ogre': [ogre_text, ogre_text_explanation],
+  'troll': [troll_text, troll_text_explanation],
+  'dragon': [dragon_text, dragon_text_explanation]
+}
+
+chest_chance_dict = {
+  'sword': {
+      'wood': [50, 30, 10, 5, 5], 
+      'iron': [40, 50, 50, 40, 30], 
+      'gold': [10, 30, 40, 50, 50], 
+      'diamond': [5, 10, 15, 20, 30], 
+      'dragon scale': [1, 2, 2, 3, 4],
+  },
+  'shield': {
+      'wood': [50, 30, 10, 5, 5], 
+      'iron': [40, 50, 50, 40, 30], 
+      'gold': [10, 30, 40, 50, 50], 
+      'diamond': [5, 10, 15, 20, 30], 
+      'dragon scale': [1, 2, 2, 3, 4],
+  }, 
+  'potion': {
+    'types': [
+      'health', 'agility', 'attack'
+    ],
+    'potion_strength': {
+      'common': 50,
+      'rare': 20,
+      'legendary': 5
+    }
+  } }
+
+chest_chances = {
+  'sword': 10, 
+  'shield': 10,
+  'potion': 15,
+}
 
 have_object_text = 'Drat! I already have one of those.'
 
