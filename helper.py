@@ -1,5 +1,6 @@
 import game_display as gdi
 import pygame as pg
+import random
 pg.init()
 
 
@@ -14,3 +15,6 @@ def render_text(text, x, y, fontObj):
 def draw_box(x, y, size_x, size_y, colour, line_thickness):
   box = pg.Rect(x, y, size_x, size_y)
   pg.draw.rect(gdi.window, colour, box, line_thickness)
+
+def getRandom(options, chances):
+  return random.choices(options, weights=(chances), k=1)[0]
