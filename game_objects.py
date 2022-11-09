@@ -77,47 +77,40 @@ class Room:
     self.chest_opened = False
   
   def generate_room_content(self):
-    # TODO: update function
-    pass
-    # chest_chance = gd.room_chances['chest'] + (1 * player.luck)
+    chest_chance = gd.room_chances['chest'] + (1 * player.luck)
     enemy_chance = gd.room_chances['enemy']
-    # empty_chance = gd.room_chances['empty']
-    # Delete after testing
-    chest_chance = 0
-    empty_chance = 0
+    empty_chance = gd.room_chances['empty']
     # TODO: test if self.visited state required.
     # self.visited = True
-    self.content = random.choices(['Enemy', 'Chest', 'Empty'], 
+    self.content = random.choices(['enemy', 'chest', 'empty'], 
     weights=(enemy_chance, chest_chance, empty_chance), k=1)[0]
+    if self.content == 'enemy':
+      self.pick_enemy()
 
   def generate_room_text(self):
     gdi.window.fill((0, 0, 0))
-    if self.content == 'Enemy':
-        self.pick_enemy()
+    if self.content == 'enemy':
+        gdi.Game_Text_1.text = gdi.enemy_text[self.enemy][0]
         gdi.Game_Text_2.text = '(Press Enter to Begin Combat)'
-    if self.content == 'Chest':
+    elif self.content == 'chest':
         gdi.Game_Text_1.text = gd.chest_text
         gdi.Game_Text_2.text = '(Press Enter to Open)'
-        self.chest_opened = False
-    if self.content == 'Empty':
+        # self.chest_opened = False
+    elif self.content == 'empty':
         gdi.Game_Text_1.text = gd.empty_text
         gdi.Game_Text_2.text = '(Press Enter to Continue)'
 
   def pick_enemy(self):
-    print('picking enemy!')
     for level in gd.enemy_chances.keys():
       if self.location[0] == level:
         enemies = list(gd.enemy_chances[level].keys())
         weights = list(gd.enemy_chances[level].values())
         self.enemy = random.choices(enemies, weights=(weights), k=1)[0]
-        print(self.enemy)
+    # enemy[self.location] = Enemy(self.enemy)
+    if self.enemy not in enemy:
+      pass
+        # Hint_text.text += enemy[self.location].explanation
 
-
-      # enemy[self.location] = Enemy(self.enemy)
-      # window.fill((0, 0, 0))
-      # Game_Text_1.text = enemy[self.location].text
-      # if self.enemy not in enemy:
-      #     Hint_text.text += enemy[self.location].explanation
 
 # ------------------ CREATE GAME OBJECTS ---------------- #
 
@@ -126,3 +119,4 @@ player = Player('')
 
 # ------------------ CREATE GAME DICTS ---------------- #
 room_dict = {player.location: Room()}
+enemy = {}
