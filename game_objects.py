@@ -20,10 +20,12 @@ class GameState:
         self.stat_num = 0
         self.main_game = False
         self.choosing_path = True
-        self.first_room = True
+        # self.first_room = True
         self.view_room = False
         self.combat = False
         self.chest = False
+        self.chest_transition = False
+        self.room_transition = False
 
 class Player:
 
@@ -78,8 +80,11 @@ class Room:
   
   def generate_room_content(self):
     chest_chance = gd.room_chances['chest'] + (1 * player.luck)
-    enemy_chance = gd.room_chances['enemy']
-    empty_chance = gd.room_chances['empty']
+    # enemy_chance = gd.room_chances['enemy']
+    # empty_chance = gd.room_chances['empty']
+    #TODO: For testing, replace with above once testing complete.
+    enemy_chance = 0
+    empty_chance = 0
     # TODO: test if self.visited state required.
     # self.visited = True
     self.content = random.choices(['enemy', 'chest', 'empty'], 
@@ -110,7 +115,22 @@ class Room:
     if self.enemy not in enemy:
       pass
         # Hint_text.text += enemy[self.location].explanation
-
+class Item():
+  
+  def __init__(self, item_category, item_type, item_name):
+    self.name = item_name
+    self.category = item_category
+    self.type = item_type
+    self.getItemStats()
+  
+  def getItemStats(self):
+    item_possible_stats = ['attack', 'defence', 'agility', 'health']
+    item_stats = list(gd.item_stats[self.category][self.type].keys())
+    for stat in item_possible_stats:
+      if stat not in item_stats:
+        setattr(self, stat, '--')
+      else:
+        setattr(self, stat, gd.item_stats[self.category][self.type][stat])
 
 # ------------------ CREATE GAME OBJECTS ---------------- #
 
