@@ -164,7 +164,7 @@ window_left_text_x = 15
 inventory_y = 30
 map_box_x = 120
 map_box_y = 300
-left_pane_xlimit = 375
+left_pane_xlimit = 450
 
 # Define right pane parameters
 window_right_text_x = 1300
@@ -302,25 +302,26 @@ def display_main_game_screen():
 
 def display_inventory(x, y):
   '''Displays the players inventory on the screen'''
-  gap = '     '
-  inventory = 'Inventory' + gap + 'Attack  Defence  Agility  Health'
+  inventory = 'Inventory'
+  attributes = 'Attack   Defence  Agility  Health'
   helper.render_text(inventory, x, y, my_font_7)
+  helper.render_text(attributes, x + 175, y, my_font_7)
   lines = 1
   for item in go.player.inventory.keys():
     # Render the name of item
     helper.render_text(str(item), x, (25 * lines) + y, my_font_7)
     # Render the properties of the item
     # TODO: fix bug here item_properties_string incorrect
-    # item_properties_string = item_properties_string(item)
-    # helper.render_text(item_properties_string, x, (25 * lines) + y, my_font_7)
-    # lines += 1
+    item_properties_string = item_properties_to_string(item)
+    helper.render_text(item_properties_string, x + 200, (25 * lines) + y, my_font_7)
+    lines += 1
 
 
 def item_properties_to_string(item):
   '''Takes in an inventory item and returns the properties as spaced string for display'''
   item_properties = ['attack', 'defence', 'agility', 'health']
   string = ''
-  print_gap = '       '
+  print_gap = '          '
   for property in item_properties:
     string += getattr(go.player.inventory[item], property) + print_gap
   return string

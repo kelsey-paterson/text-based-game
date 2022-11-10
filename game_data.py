@@ -108,8 +108,11 @@ item_stats = {
     'gold': {
       'attack': '25',
     },
+    'diamond': {
+      'attack': '30'
+    },
     'dragon_scales': {
-      'attack': '30',
+      'attack': '35',
     }
   },
   'shield':     {
@@ -125,25 +128,28 @@ item_stats = {
     'gold': {
       'defence': '25',
     },
+    'diamond': {
+      'defence': '30'
+    },
     'dragon_scales': {
-      'defence': '30',
+      'defence': '35',
     }
   },
   'potion': {
     'health': {
-      'common': 10,
-      'rare': 20,
-      'legendary': 30
+      'common': '10',
+      'rare': '20',
+      'legendary': '30'
     },
     'agility': {
-      'common': 10,
-      'rare': 20,
-      'legendary': 30
+      'common': '10',
+      'rare': '20',
+      'legendary': '30'
     },
     'attack': {
-      'common': 10,
-      'rare': 20,
-      'legendary': 30
+      'common': '10',
+      'rare': '20',
+      'legendary': '30'
     }
   }
 }

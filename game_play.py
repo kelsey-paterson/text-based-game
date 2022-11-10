@@ -86,6 +86,8 @@ def main_game(event):
 
 def choose_path(event):
   # Hint_text.text = ''
+  if not go.game_state.first_room:
+    display_choosing_path_text()
   if event.type == pg.KEYDOWN:
     if event.key in (pg.K_a, pg.K_w, pg.K_s, pg.K_d):
       go.player.move(event.key)
@@ -97,7 +99,7 @@ def view_room():
     go.room_dict[go.player.location] = go.Room()
     go.room_dict[go.player.location].generate_room_content()
     go.room_dict[go.player.location].generate_room_text()
-    # go.game_states.first_room = False
+    go.game_state.first_room = False
     go.game_state.view_room = False
     go.game_state.room_transition = True
   else:
@@ -201,6 +203,12 @@ def chest_handle_enter(event):
   if event.type == pg.KEYDOWN:
     if event.key == (pg.K_RETURN):
       go.game_state.choosing_path = True
+
+def display_choosing_path_text():
+  # TODO: Update dynamically depending on map position
+  gdi.window.fill((0, 0, 0))
+  gdi.Game_Text_1.text = 'choose a path'
+  gdi.Game_Text_2.text = 'press this or that'
 
 
 

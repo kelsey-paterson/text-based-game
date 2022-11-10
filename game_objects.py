@@ -20,7 +20,7 @@ class GameState:
         self.stat_num = 0
         self.main_game = False
         self.choosing_path = True
-        # self.first_room = True
+        self.first_room = True
         self.view_room = False
         self.combat = False
         self.chest = False
@@ -125,12 +125,21 @@ class Item():
   
   def getItemStats(self):
     item_possible_stats = ['attack', 'defence', 'agility', 'health']
-    item_stats = list(gd.item_stats[self.category][self.type].keys())
-    for stat in item_possible_stats:
-      if stat not in item_stats:
-        setattr(self, stat, '--')
-      else:
-        setattr(self, stat, gd.item_stats[self.category][self.type][stat])
+    if self.category == 'potion':
+      potion_strength = self.type.split()[0]
+      potion_type = self.type.split()[1]
+      for stat in item_possible_stats:
+        if stat not in potion_type:
+          setattr(self, stat, '--')
+        else:
+          setattr(self, stat, gd.item_stats[self.category][potion_type][potion_strength])
+    else:
+      item_stats = list(gd.item_stats[self.category][self.type].keys())
+      for stat in item_possible_stats:
+        if stat not in item_stats:
+          setattr(self, stat, '--')
+        else:
+          setattr(self, stat, gd.item_stats[self.category][self.type][stat])
 
 # ------------------ CREATE GAME OBJECTS ---------------- #
 
