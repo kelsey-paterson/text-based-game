@@ -3,7 +3,6 @@ import pygame as pg
 pg.init()
 
 # Import proprietary game modules
-
 from game_data import *
 from game_display import *
 from game_objects import *
@@ -40,7 +39,8 @@ while game_state.is_running:
       main_game(event)
 
   # Continually update game screen
+  if game_state.main_game:
+    gdi.display_main_game_screen()
   display_all_text()
   pg.display.flip()
   fpsClock.tick(fps)
-  
