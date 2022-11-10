@@ -310,9 +310,10 @@ def display_inventory(x, y):
     # Render the name of item
     helper.render_text(str(item), x, (25 * lines) + y, my_font_7)
     # Render the properties of the item
-    item_properties_string = item_properties_string(item)
-    helper.render_text(item_properties_string, x, (25 * lines) + y, my_font_7)
-    lines += 1
+    # TODO: fix bug here item_properties_string incorrect
+    # item_properties_string = item_properties_string(item)
+    # helper.render_text(item_properties_string, x, (25 * lines) + y, my_font_7)
+    # lines += 1
 
 
 def item_properties_to_string(item):
