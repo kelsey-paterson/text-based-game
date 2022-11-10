@@ -94,6 +94,60 @@ chest_chance_dict = {
     }
   } }
 
+item_stats = {
+  'sword': {
+    'wood': {
+      'attack': '10',
+    },
+    'iron': {
+      'attack': '15',
+    },
+    'gold': {
+      'attack': '20',
+    },
+    'gold': {
+      'attack': '25',
+    },
+    'dragon_scales': {
+      'attack': '30',
+    }
+  },
+  'shield':     {
+    'wood': {
+      'defence': '10',
+    },
+    'iron': {
+      'defence': '15',
+    },
+    'gold': {
+      'defence': '20',
+    },
+    'gold': {
+      'defence': '25',
+    },
+    'dragon_scales': {
+      'defence': '30',
+    }
+  },
+  'potion': {
+    'health': {
+      'common': 10,
+      'rare': 20,
+      'legendary': 30
+    },
+    'agility': {
+      'common': 10,
+      'rare': 20,
+      'legendary': 30
+    },
+    'attack': {
+      'common': 10,
+      'rare': 20,
+      'legendary': 30
+    }
+  }
+}
+
 chest_chances = {
   'sword': 10, 
   'shield': 10,
