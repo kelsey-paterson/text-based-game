@@ -352,7 +352,7 @@ def display_map(x, y):
   '''Displays the map and current player location on main game screen'''
   color = pg.Color((0, 128, 0))
   map_box_width = len(gd.room_map[0]) * 17
-  helper.render_text('Room Map', x + 30, y - 20, my_font_7)
+  helper.render_text('Room Map', x + 20, y - 20, my_font_7)
   helper.draw_box(x, y, map_box_width, map_box_width, color, 1)
   #TODO: Complete the below, figure out what it is doing first...
   # for i in go.player.rect_map:

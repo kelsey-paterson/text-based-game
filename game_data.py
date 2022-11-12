@@ -154,6 +154,19 @@ item_stats = {
   }
 }
 
+combat_factors = {
+  'light attack': {
+    'attack': 1.2,
+    'is_hit': 1,
+    'critical_hit': 0.02
+  },
+  'heavy attack': {
+    'attack': 1.6,
+    'is_hit': 0.5,
+    'critical_hit': 0.04
+  }
+}
+
 chest_chances = {
   'sword': 10, 
   'shield': 10,

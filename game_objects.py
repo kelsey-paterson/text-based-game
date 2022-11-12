@@ -26,6 +26,10 @@ class GameState:
         self.chest = False
         self.chest_transition = False
         self.room_transition = False
+        # combat states 
+        self.player_turn = True
+        self.choose_potion = False
+        self.choose_attack = True
 
 class Player:
 
@@ -81,10 +85,9 @@ class Room:
   def generate_room_content(self):
     chest_chance = gd.room_chances['chest'] + (1 * player.luck)
     # enemy_chance = gd.room_chances['enemy']
-    # empty_chance = gd.room_chances['empty']
+    empty_chance = gd.room_chances['empty']
     #TODO: For testing, replace with above once testing complete.
     enemy_chance = 0
-    empty_chance = 0
     # TODO: test if self.visited state required.
     # self.visited = True
     self.content = random.choices(['enemy', 'chest', 'empty'], 
