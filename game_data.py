@@ -8,12 +8,19 @@ game_intro_text2 = 'Press A to move left, D to move right or W to move forward'
 
 stats = ['health', 'attack', 'defence', 'agility', 'luck']
 
-explain = {
+explain_stat = {
 'health': 'How much attack you can withstand', 
 'attack': 'How much damage your attacks land on your enemy', 
 'defence': 'How much you can defend an incoming enemy attack', 
 'agility': 'Chance of evading an incoming attack', 
 'luck': 'Chance of good loot from chests and enemies'
+}
+
+explain_enemy = {
+  'bat': '',
+  'ogre': '',
+  'troll': '',
+  'dragon': ''
 }
 
 # TODO: Tweak to improve gameplay
@@ -41,7 +48,33 @@ enemy_chances = {
     'bat': 60,
     'ogre': 40,
   }
-  
+}
+
+enemy_stats = {
+  'bat': {
+    'attack': 5,
+    'defence': 5,
+    'health': 10,
+    'agility': 20,
+  },
+  'ogre': {
+    'attack': 20,
+    'defence': 30,
+    'health': 20,
+    'agility': 5,
+  },
+  'troll': {
+    'attack': 40,
+    'defence': 30,
+    'health': 30,
+    'agility': 5
+  },
+  'dragon': {
+    'attack': 50,
+    'defence': 50,
+    'health': 50,
+    'agility': 30
+  }
 }
 
 chest_text = 'You find an old wooden chest.'

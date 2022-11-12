@@ -21,7 +21,7 @@ def pick_stats(event):
     if go.game_state.stat_num == 2:
       gdi.Intro_Text_1.text = 'Press enter to confirm'
       if event.type == pg.KEYDOWN and event.key == pg.K_RETURN:
-        prepare_game()
+        prepare_game_screen()
 
         # Move to next game_state
         go.game_state.pick_stats = False
@@ -52,7 +52,7 @@ def pick_stats(event):
     for button in gdi.MinusButton.values():
       button.display_button()
 
-def prepare_game():
+def prepare_game_screen():
   '''Prepares game screen for main game display'''
   
   # Set game text to display
@@ -80,7 +80,7 @@ def display_choosing_path_text():
   # TODO: Update dynamically depending on map position
   gdi.window.fill((0, 0, 0))
   gdi.Game_Text_1.text = 'choose a path'
-  gdi.Game_Text_2.text = 'press this or that'
+  gdi.Game_Text_2.text = 'Press A to move left, D to move right or W to move forward'
 
 def choose_path(event):
   # Hint_text.text = ''
@@ -202,9 +202,9 @@ def combat_chance_calc(attack_type, a_weapon_strength):
   '''Calculate player attack and randomly calculate hit bools from predetermined weightings'''
   # Parameters used
   attack_factors = gd.combat_factors[attack_type]
-  attack_factor = attack_factors.attack
-  is_hit_factor = attack_factors.is_hit * go.player.luck
-  critical_hit_factor = attack_factors.critical_hit * go.player.luck
+  attack_factor = attack_factors['attack']
+  is_hit_factor = attack_factors['is_hit'] * go.player.luck
+  critical_hit_factor = attack_factors['critical_hit'] * go.player.luck
 
   # Calculations:
   player_attack = round(attack_factor * (1 + ((go.player.attack + a_weapon_strength) / 10)), 0)
@@ -234,39 +234,41 @@ def handle_choose_attack(event):
     if event.key == pg.K_l:
       outcome = 'light attack'
       go.game_state.choose_attack = False
+      return outcome
       # Hint_text.text = ''
     # Heavy attack
     elif event.key == pg.K_h:
       outcome = 'heavy attack'
       go.game_state.choose_attack = False
+      return outcome
       # Hint_text.text = ''
     # Potion chosen
     elif event.key == pg.K_p:
       outcome = 'potion'
       go.game_state.choose_attack = False
       go.game_state.choose_potion = True
+      return outcome
   
-  return outcome
 
 def generate_combat_hints():
   if go.game_state.first_combat:
-  pass
+    pass
   # TODO: complete hint text
   # Hint_text.text = gt.attack_hint_text
-  pass
 
 def handle_choose_potion(event):
   # TODO: Complete below function for selecting a potion
   # which_potion(event)
   pass
 
-def display_attack_result(current_enemy, is_hit, is_critical_hit):
+def display_attack_result( is_hit, is_critical_hit):
   '''Updates game screen depending on result of player attack'''
+  enemy = go.enemy[go.player.location]
   gdi.window.fill((0, 0, 0))
   if is_hit and is_critical_hit:
-    gdi.Game_Text_1.text = 'The {} took a critical hit!'.format(current_enemy.type)
+    gdi.Game_Text_1.text = 'The {} took a critical hit!'.format(enemy.type)
   elif is_hit:
-    gdi.Game_Text_1.text = 'The {} took a direct hit!'.format(current_enemy.type)
+    gdi.Game_Text_1.text = 'The {} took a direct hit!'.format(enemy.type)
   else:
     gdi.Game_Text_1.text = 'Your attack missed!'
   
@@ -275,38 +277,39 @@ def display_attack_result(current_enemy, is_hit, is_critical_hit):
 def combat_player_turn_handle_enter(event):
   if event.type == pg.KEYDOWN:
     if event.key == pg.K_RETURN:
-        go.game_state.player_turn = 'enemy'
+        go.game_state.player_turn = False
         # go.game_state.choose_defence = True
 
-def update_combat_stats(current_enemy, player_attack, is_hit, is_critical_hit):
+def update_combat_stats(player_attack, is_hit, is_critical_hit):
+  enemy = go.enemy[go.player.location]
   if is_hit and is_critical_hit:
-    current_enemy.combat_health -= player_attack * 1.5
+    enemy.combat_health -= player_attack * 1.5
 
   elif is_hit:
-    current_enemy.combat_health -= player_attack
+    enemy.combat_health -= player_attack
 
 
-def combat_player_turn(event, current_enemy):
+def combat_player_turn(event):
   '''combat during player turn'''
-  gdi.Game_Text_1.text = 'Choose your Attack... '
-  gdi.Game_Text_2.text = '(Press L for Light and H for Heavy or P to use a potion)'
 
   if go.game_state.choose_attack:
+    gdi.Game_Text_1.text = 'Choose your Attack... '
+    gdi.Game_Text_2.text = '(Press L for Light and H for Heavy or P to use a potion)'
     attack = handle_choose_attack(event)
 
-  if attack == 'light attack' or 'heavy attack':
-    weapon_strength = combat_weapon_strength('attack')
-    (player_attack, is_hit, is_critical_hit) = combat_chance_calc(attack, weapon_strength)
+    if attack == 'light attack' or attack == 'heavy attack':
+      weapon_strength = combat_weapon_strength('attack')
+      (player_attack, is_hit, is_critical_hit) = combat_chance_calc(attack, weapon_strength)
 
-    display_attack_result(current_enemy, is_hit, is_critical_hit)
-    update_combat_stats(current_enemy, player_attack, is_hit, is_critical_hit)
-    if not go.game_state.attacking:
-      combat_player_turn_handle_enter(event, is_hit, is_critical_hit)
+      display_attack_result(is_hit, is_critical_hit)
+      update_combat_stats(player_attack, is_hit, is_critical_hit)
+  elif not go.game_state.choose_attack:
+    combat_player_turn_handle_enter(event)
 
 def combat_enemy_turn(event):
   pass
   # if go.game_state.player_turn == 'enemy':
-  #     gdi.Game_Text_1.text = 'The {} is attacking... '.format(current_enemy.type)
+  #     gdi.Game_Text_1.text = 'The {} is attacking... '.format(enemy.type)
   #     gdi.Game_Text_2.text = '(Press E to attempt to evade, B to block or P to use a potion)'
   #     if go.game_state.first_combat:
   #         Hint_text.text = gt.defend_hint_text
@@ -315,7 +318,7 @@ def combat_enemy_turn(event):
   #         if event.type == pg.KEYDOWN:
   #             if event.key == pg.K_e:
   #                 go.game_state.evade = random.choices(['Yes', 'No'], weights=(player.luck * 0.5, 1), k=1)[0]
-  #                 go.game_state.e_attack = current_enemy.attack
+  #                 go.game_state.e_attack = enemy.attack
   #                 go.game_state.choose_defence = False
   #                 go.game_state.defend = 'No'
   #                 go.game_state.first_combat = False
@@ -329,7 +332,7 @@ def combat_enemy_turn(event):
 
   #     if not go.game_state.choose_defence:
   #         if go.game_state.evade == 'Yes':
-  #             gdi.Game_Text_1.text = 'You dodged the {}''s attack successfully!'.format(current_enemy.type)
+  #             gdi.Game_Text_1.text = 'You dodged the {}''s attack successfully!'.format(enemy.type)
   #             gdi.Game_Text_2.text = '(Press Enter)'
   #             if event.type == pg.KEYDOWN:
   #                 if event.key == pg.K_RETURN:
@@ -356,22 +359,23 @@ def combat_enemy_turn(event):
   #                     go.game_state.player_turn = 'player'
   #                     go.game_state.choose_attack = True
 
-def end_of_combat(event, current_enemy):
+def end_of_combat():
   '''Returns true if end of combat conditions met'''
+  enemy = go.enemy[go.player.location]
   pass
-  if current_enemy.health <= 0:
-    print('you bet them!')
+  if enemy.health <= 0:
+    return True
   elif go.player.combat_health <= 0:
-    print('game over')
-#   if current_enemy.combat_health <= 0:
+    return True
+#   if enemy.combat_health <= 0:
 #     xp_gained = {'Bat': 10, 'Ogre': 20, 'Troll': 30, 'Dragon': 50}
-#     gdi.Game_Text_1.text = 'The {} is defeated! You gained {} XP'.format(current_enemy.type, xp_gained[current_enemy.type])
+#     gdi.Game_Text_1.text = 'The {} is defeated! You gained {} XP'.format(enemy.type, xp_gained[enemy.type])
 #     gdi.Game_Text_2.text = '(Press Enter)'
 #     Hint_text.text = ''
 #     go.game_state.first_combat = False
 #     if event.type == pg.KEYDOWN:
 #         if event.key == pg.K_RETURN:
-#             player.xp += xp_gained[current_enemy.type]
+#             player.xp += xp_gained[enemy.type]
 #             go.game_state.choosing_path = True
 #             go.game_state.in_combat = False
 #             go.game_state.view_room = False
@@ -393,13 +397,15 @@ def engage_combat(event):
     # Hint_text.text = ''
   enemy = go.room_dict[go.player.location].enemy
 
-  while not end_of_combat():
+  if not end_of_combat():
     gdi.display_enemy_stats(enemy)
     gdi.display_player_combat_health()
     if go.game_state.player_turn:
-      combat_player_turn(event, enemy)
+      combat_player_turn(event)
     else:
-      combat_enemy_turn(event, enemy)
+      combat_enemy_turn(event)
+  elif end_of_combat():
+    print('combat over...')
 
 
 # CHEST 
@@ -484,7 +490,6 @@ def chest_handle_enter(event):
       go.game_state.choosing_path = True
 
 # MAIN GAME 
-
 
 def main_game(event):
   '''Moving between main game states (and transition states)'''

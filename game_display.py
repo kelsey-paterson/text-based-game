@@ -279,7 +279,7 @@ def display_all_text():
 
 def display_explain_stat(stat, stat_y):
   '''Adds explanation text for each stat field'''
-  explanation = my_font_7.render(gd.explain[stat], True, (0, 128, 0))
+  explanation = my_font_7.render(gd.explain_stat[stat], True, (0, 128, 0))
   explanation_rect = explanation.get_rect()
   explanation_rect.centery = stat_y
   explanation_rect.left = stat_x + 295
@@ -372,6 +372,13 @@ def display_xp_level(x, y):
   helper.draw_box(x, y - 25, total_length, 10, colour, 1)
   #Draw xp level bar
   helper.draw_box(x, y - 25, length, 10, colour, 0)
+
+
+def display_enemy_stats(enemy):
+  pass
+
+def display_player_combat_health():
+  pass
 
 # ------------------ CREATE DISPLAY DICTS ---------------- #
 AddButton = {}
