@@ -77,6 +77,8 @@ enemy_stats = {
   }
 }
 
+xp_gained = {'bat': 10, 'ogre': 20, 'troll': 30, 'dragon': 50}
+
 chest_text = 'You find an old wooden chest.'
 empty_text = 'The room is empty'
 

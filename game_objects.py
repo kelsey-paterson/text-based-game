@@ -30,6 +30,7 @@ class GameState:
       # transition states
       self.chest_transition = False
       self.room_transition = False
+      self.mid_combat_transition = False
 
       # combat states 
       self.player_turn = True
@@ -42,6 +43,9 @@ class GameState:
       self.choose_potion = False
       self.choose_attack = True
       self.choose_defence = True
+      self.choosing_path = True
+      self.combat = False
+      # self.view_room = False
 
 
 class Player:
@@ -62,6 +66,8 @@ class Player:
       self.y = 0
       self.combat_health = self.health
 
+    def reset_combat(self):
+      self.combat_health = self.health
     
     def move(self, event_key):
       # TODO: need to limit to where there is paths drawn i.e. in line with text displayed.

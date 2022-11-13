@@ -171,6 +171,11 @@ window_right_text_x = 1300
 player_stats_y = 30
 xp_y = 200
 right_pane_xlimit = 1275
+enemy_stats_y = 300
+
+# Combat display parameters
+player_combat_health_x = 550
+player_combat_health_y = 50
 
 
 # Assign game window icon & title
@@ -374,11 +379,64 @@ def display_xp_level(x, y):
   helper.draw_box(x, y - 25, length, 10, colour, 0)
 
 
-def display_enemy_stats(enemy):
-  pass
+def display_enemy_stats():
+  enemy = go.enemy[go.player.location]
+  x = window_right_text_x
+  y = enemy_stats_y
+  heading_text = 'Enemy Stats'
+  attack_text = 'Attack: ' + str(enemy.attack)
+  defence_text = 'Defence: ' + str(enemy.defence)
+  helper.render_text(heading_text, x, y, my_font_7)
+  helper.render_text(attack_text, x, y + 25, my_font_7)
+  helper.render_text(defence_text, x, y + 50, my_font_7)
+
+def display_enemy_combat_health():
+  enemy = go.enemy[go.player.location]
+  x = player_combat_health_x + 500
+  y = player_combat_health_y
+  colour = pg.Color((0, 128, 0))
+  total_length = 100
+  multiplier = 100 / enemy.health
+  length = enemy.combat_health * multiplier
+  health_text = enemy.type + ' Health'
+
+  helper.render_text(health_text, x, y + 30, my_font_7)
+  helper.draw_box(x, y, total_length, 20, colour, 1)
+  helper.draw_box(x, y, length, 20, colour, 0)
 
 def display_player_combat_health():
+  x = player_combat_health_x
+  y = player_combat_health_y
+  total_length = 100
+  multiplier = 100 /go.player.health
+  length = go.player.combat_health * multiplier
+
+  helper.render_text('Your health', x, y + 30, my_font_7)
+  color = pg.Color((0, 128, 0))
+  helper.draw_box(x, y, total_length, 20, color, 1)
+  helper.draw_box(x, y, length, 20, color, 0)
+
+def display_player_combat_attack():
   pass
+    # if player.combat_attack == player.attack:
+    #     # do nothing
+    #     pass
+    # else:
+    #     # TODO: modify the below to show the upgrade in attack during combat from potion. Could include weapon attack stat?
+    #     text_surface = my_font2.render('Attack +{}'.format(player.combat_attack-player.attack), True, (0, 128, 0))
+    #     rect = text_surface.get_rect()
+    #     rect.centery = player_combat_health_y -30
+    #     rect.left = player_combat_health_x
+    #     window.blit(text_surface, rect)
+
+
+def display_room(player):
+  pass
+    # text_surface = my_font2.render('Current Room:  {}'.format(player.location), True, (0, 128, 0))
+    # rect = text_surface.get_rect()
+    # rect.centery = 400
+    # rect.left = window_right_text_x
+    # window.blit(text_surface, rect)
 
 # ------------------ CREATE DISPLAY DICTS ---------------- #
 AddButton = {}

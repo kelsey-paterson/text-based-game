@@ -4,7 +4,10 @@ pg.init()
 import game_objects as go
 import game_data as gd
 import game_display as gdi
-import game_play as gp
+import game_play.combat as gp
+import game_play.chest as ch
+import game_play.intro as i
+import game_play.room_and_path as rp
 
 # -----------------------  FUNCTIONS ----------------------------#
 
@@ -27,7 +30,7 @@ def handle_name_input(event):
 def handle_pick_stats(event):
   '''handles user picking stats events'''
   gdi.display_pick_stats()
-  gp.pick_stats(event)
+  i.pick_stats(event)
   # room_dict[go.player.location] = go.Room()
   # if event.type == pg.KEYDOWN:
   #     if event.key == pg.K_RETURN and go.game_state.stats_picked:
